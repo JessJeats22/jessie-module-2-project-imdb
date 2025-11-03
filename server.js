@@ -8,8 +8,6 @@ import path from 'path';
 
 
 
-
-
 // * Importing Controllers
 import authRouter from './controllers/auth.js'
 
@@ -18,6 +16,8 @@ import authRouter from './controllers/auth.js'
 const app = express()
 
 // * Calling Middleware
+app.use(express.urlencoded({ extended: true }));
+
 
 // * Calling Session Middleware
 
@@ -31,6 +31,17 @@ app.use("/auth", authRouter);
 app.get ('/', (req, res) => {
     res.render('index.ejs')
 })
+
+// * Connections
+const connect = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI)
+    console.log('🔒 Database connection established')
+  } catch (error) {
+    console.error(error)
+  }
+}
+connect()
 
 
 // * Server

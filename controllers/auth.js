@@ -66,18 +66,32 @@ router.get('/sign-in', (req, res) => {
 
 router.post ('/sign-in', async (req,res) => {
 
-    // confirm the Username exists
+    try{
+
+    // Confirm they are already an existingUser
     const existingUser = await User.findOne( {username: req.body.username})
     if (!existingUser) return res.send ("Login failed. Please try again")
 
 
-    // confirm the username + password match 
-    // rely on bcrypt to determine if the entered password matches the one stored in the database
+    // There is a user! Rely on bcrypt to determine if the entered password matches the one stored in the database
         const validPassword = bcrypt.compareSync(req.body.password, existingUser.password)
         if (!validPassword) return res.send ("Login failed. Please try again")
 
 
-        res.send('request to sign in received')
+    // If password is correct, sign in the user! To do so, update the session store for the cookie to be generated and sent back to client:
+       req.session.user = {
+      _id: existingUser._id,
+      username: existingUser.username
+    }
+
+     req.session.save(() => res.redirect('/'))
+     
+} catch (error){
+    console.error(error);
+     res.status(500).send('Unexpected error during login.');
+    }
+
+    
 });
 
 

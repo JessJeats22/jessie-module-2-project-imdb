@@ -5,6 +5,7 @@ import methodOverride from 'method-override'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv/config'
 import path from 'path';
+import session from 'express-session'
 
 
 
@@ -12,11 +13,20 @@ import path from 'path';
 import authRouter from './controllers/auth.js'
 
 // * Importing Middleware
+import isSignedIn from './middleware/is-signed-in.js';
 
 const app = express()
 
 // * Calling Middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+    })
+);
 
 
 // * Calling Session Middleware

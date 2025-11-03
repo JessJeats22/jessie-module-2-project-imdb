@@ -12,6 +12,10 @@ router.get("/sign-up", (req, res) => {
     res.render("auth/sign-up.ejs");
 });
 
+router.get('/sign-in', (req, res) => {
+    res.render('auth/sign-in.ejs')
+})
+
 
 // * post Routes auth/ 
 
@@ -45,7 +49,25 @@ router.post('/sign-up', async (req, res) => {
 
 
     // define route if all good here! 
-    res.send('Form submissiohn accepted');
-})
+    res.redirect('sign-in.ejs');
+});
+
+
+router.post ('/sign-in', async (req,res) => {
+
+    // confirm the Username exists
+    const confirmUsernameInDatase = await User.findOne( {username: req.body.username})
+    if (!confirmUsernameInDatase) return res.send ("Login failed. Please try again")
+
+
+    // confirm the username + password match 
+    // rely on bcrypt to determine if the entered password matches the one stored in the database
+        const validPassword = bcrypt.compareSync(req.body.password, usernameInDatase.password)
+        if (!validPassword) return res.send ("Login failed. Please try again")
+
+
+        res.send('request to sign in received')
+});
+
 
 export default router

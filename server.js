@@ -9,18 +9,26 @@ import session from 'express-session'
 import MongoStore from 'connect-mongo'
 
 
-
-// * Importing Controllers
+// * Importing Controllers / Routers
 import authRouter from './controllers/auth.js'
+import movieRouter from './controllers/movies.js'
+// import reviewRoute from './controllers/reviews.js'
+
 
 // * Importing Middleware
 import isSignedIn from './middleware/is-signed-in.js';
+import passUserToView from './middleware/pass-user-to-view'
 
 const app = express()
 
 // * Calling Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+app.use(express.static('public'));
+app.use(passUserToView);
+
+
+// * Calling Session Middleware
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
@@ -30,11 +38,9 @@ app.use(
     })
 );
 
-
-// * Calling Session Middleware
-
 // * Calling controllers/Routers - intructing Express app to use certain controllers based on URL pattern
 app.use("/auth", authRouter); 
+app.use('/movies', movieRouter);
 
 
 

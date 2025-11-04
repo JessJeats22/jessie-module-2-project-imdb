@@ -5,7 +5,7 @@ import isSignedIn from '../middleware/is-signed-in.js';
 import isSignedOut from '../middleware/is-signed-out.js';
 
 
-export const router = express.Router()
+ const router = express.Router()
 
 
 // * ALL ROUTES 

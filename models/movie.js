@@ -19,7 +19,8 @@ const movieSchema = new mongoose.Schema ({
   },
   // The user who created (added) the movie
   addedBy: {
-    type: mongoose.Schema.Types.ObjectId,
+    // type: mongoose.Schema.Types.ObjectId, 
+    type: String,
     ref: "User",
     required: true,
   },

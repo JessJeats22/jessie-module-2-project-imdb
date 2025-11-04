@@ -4,36 +4,52 @@ import isSignedIn from "../middleware/is-signed-in.js";
 import Movie from '../models/movie.js'
 import { title } from "process";
 
- const router = express.Router()
+const router = express.Router()
 
 // * GET routes /movies/
-router.get ('/', (req, res) => {
-    res.render('movies/index.ejs')
-})
+router.get('/', async (req, res) => {
+  try {
+    // Fetching all movies from MongoDB
 
-router.get ('/new', (req, res) => {
+    const movies = await Movie.find().populate('addedBy'); // includes username of whoever added it
+    res.locals.movies = movies;
+    // Render your EJS view and pass movies in
+
+      res.render('movies/index');
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error loading movies');
+  }
+});
+
+
+router.get('/new', (req, res) => {
     res.render('movies/new.ejs')
 })
 
 
 // * POST routes /movies/
-router.post('/new', isSignedIn, async (req, res) => {
+router.post('/', isSignedIn, async (req, res) => {
 
     try {
+        // Verify title doesn't already exist in database
+        const movieInDatabase = await Movie.findOne({ title: req.body.title })
+        if (movieInDatabase) return res.status(400).send('Movie already exists.')
 
-    // Verify title doesn't already exist in database
-    const newMovie = req.body.title
-    const movieInDatabase = await Movie.findOne ({title: title})
-    if (movieInDatabase) return res.status(400).send('Movie already exists.')
-    
 
-    // create new movie in database 
-    const movieCreated = await Movie.create(req.body)
-    console.log(movieCreated)
+        // create new movie in database and attach to logged in user 
+        const newMovie = new Movie(req.body);
+        newMovie.addedBy = req.session.user._id;
 
-    res.redirect('/')
+        // save movie to database
+        await newMovie.save();
+        console.log('movieCreated', newMovie);
 
-        }  catch (error) {
+        // redirect to movies index page to see it in the list 
+        res.redirect('/')
+
+    } catch (error) {
         console.error(error)
         return res.status(500).send('Something went wrong. Please try again later.')
     }

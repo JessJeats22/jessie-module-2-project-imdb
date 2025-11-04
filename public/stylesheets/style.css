@@ -1,0 +1,17 @@
+* {
+  background-color: #0a0a1a;
+  color: #f8f8ff;
+  font-family: 'Orbitron', sans-serif;
+
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  list-style: none;
+}
+
+nav ul li {
+  
+}

@@ -3,10 +3,11 @@ import express from 'express'
 import isSignedIn from "../middleware/is-signed-in.js";
 import Movie from '../models/movie.js'
 import { title } from "process";
+import { asyncWrapProviders } from "async_hooks";
 
 const router = express.Router()
 
-// * GET routes /movies/
+// * GET ROUTES /movies
 router.get('/', async (req, res) => {
   try {
     // Fetching all movies from MongoDB
@@ -23,13 +24,41 @@ router.get('/', async (req, res) => {
   }
 });
 
-
+// * movies/new
 router.get('/new', (req, res) => {
     res.render('movies/new.ejs')
 })
 
+// * movies/:movieID— display one movie by its ID
+// this route will display a specific movie based on it ID
+router.get('/:movieId', async (req, res) => {
+  try {
+    // get the id from the URL (like /movies/abc123)
+    const movieId = req.params.movieId;
 
-// * POST routes /movies/
+    // Use Mongoose to find that specific movie in the database
+    const movie = await Movie.findById(movieId).populate('addedBy');
+
+    // If no movie is found, show an error
+    if (!movie) {
+      return res.status(404).send('Movie not found');
+    }
+
+    // otherwise, show the movie details on a page
+    res.render('movies/show.ejs', { movie });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error loading movie');
+  }
+});
+
+// * movies/:movieID/edit
+router.get('/:movieId/edit', async (req, res) => {
+
+})
+
+// * POST ROUTES /movies/
 router.post('/', isSignedIn, async (req, res) => {
 
     try {
@@ -54,6 +83,8 @@ router.post('/', isSignedIn, async (req, res) => {
         return res.status(500).send('Something went wrong. Please try again later.')
     }
 });
+
+// * EDIT ROUTES 
 
 
 export default router

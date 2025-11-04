@@ -11,18 +11,8 @@
 
   <h1>Movies List</h1>
 
-  <ul>
-    <% if (movies.length === 0) { %>
-      <li>No movies yet — be the first to add one!</li>
-    <% } else { %>
-      <% movies.forEach(movie => { %>
-        <li>
-          
-           <p>
-            <span class="label">Title:</span>
-            <a href="/movies/<%= movie._id %>"><%= movie.title %></a>
-          </p>
-
+ <li>      
+          <p><span class="label">Title:</span> <%= movie.title %></p>
           <p><span class="label">Description:</span> <%= movie.description %></p>
           <p><span class="label">Year:</span> <%= movie.year %></p>
           <p><span class="label">Genre:</span> <%= movie.genre %></p>
@@ -30,9 +20,6 @@
             <p><span class="label">Added by:</span> <%= movie.addedBy.username %></p>
           <% } %>
         </li>
-      <% }) %>
-    <% } %>
-  </ul>
 
 </body>
 </html>

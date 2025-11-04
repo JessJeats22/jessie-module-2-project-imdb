@@ -48,6 +48,7 @@ router.post('/sign-up', async (req, res) => {
 
         // define route if all good here! 
         res.redirect('/auth/sign-in');
+
     } catch (error) {
         console.error(error)
         return res.status(500).send('Something went wrong. Please try again later.')
@@ -56,7 +57,7 @@ router.post('/sign-up', async (req, res) => {
 
 // * GET /auth/sign-in
 router.get('/sign-in', (req, res) => {
-    res.render('auth/sign-in.ejs')
+    res.render('auth/sign-in')
 })
 
 // * POST /auth/sign-in

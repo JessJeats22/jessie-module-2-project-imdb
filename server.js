@@ -21,13 +21,6 @@ import passUserToView from './middleware/pass-user-to-view'
 
 const app = express()
 
-// * Calling Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan('dev'));
-app.use(express.static('public'));
-app.use(passUserToView);
-
-
 // * Calling Session Middleware
 app.use(
     session({
@@ -37,6 +30,15 @@ app.use(
         store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI })
     })
 );
+
+
+// * Calling Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
+app.use(express.static('public'));
+app.use(passUserToView);
+
+
 
 // * Calling controllers/Routers - intructing Express app to use certain controllers based on URL pattern
 app.use("/auth", authRouter); 

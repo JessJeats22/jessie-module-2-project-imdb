@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jessie's MovieDB</title>
 </head>
+
 <body>
-    <% if (user) { %>
-<h1>Welcome to the app, <%= user.username %>!</h1>
-<p> <a href="/auth/sign-out">Sign out</a> </p>
-<% } else { %>
-<h1>Welcome to the app, guest.</h1>
-<p>
-  <a href="/auth/sign-up">Sign up</a> or <a href="/auth/sign-in">sign in</a>.
-</p>
-<% } %>
+  <%- include('partials/navbar.ejs') %>
+
+
+    <h1>Welcome to Jessie's MovieDB</h1>
+    <p> Browse the latests movies and reviews</p>
 
 </body>
+
 </html>

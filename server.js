@@ -21,6 +21,9 @@ import passUserToView from './middleware/pass-user-to-view'
 
 const app = express()
 
+app.set('view engine', 'ejs');
+
+
 // * Calling Session Middleware
 app.use(
     session({

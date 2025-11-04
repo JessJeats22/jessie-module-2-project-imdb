@@ -6,13 +6,12 @@ import Movie from '../models/movie.js'
  const router = express.Router()
 
 // * GET routes /movies/
-
 router.get ('/', (req, res) => {
-    res.send ('This will be my movies listing page')
+    res.render('movies/index.ejs')
 })
 
 router.get ('/new', (req, res) => {
-    res.send ('This will be where I display new created movie')
+    res.render('movies/new.ejs')
 })
 
 export default router

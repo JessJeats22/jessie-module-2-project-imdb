@@ -12,7 +12,7 @@ import isSignedOut from '../middleware/is-signed-out.js';
 
 // * GET /auth/sign-up
 router.get("/sign-up", isSignedOut, (req, res) => {
-    res.render("auth/sign-up.ejs");
+    res.render("auth/sign-up");
 });
 
 // *  POST /auth/sign-up

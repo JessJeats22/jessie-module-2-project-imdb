@@ -26,42 +26,44 @@ router.get('/', async (req, res) => {
   }
 });
 
-// * GET - movies/new
+// * GET - /movies/new
 router.get('/new', (req, res) => {
     res.render('movies/new.ejs')
 })
 
-// * DELETE ROUTES
-
-router.delete("/:movieId", async (req, res) => {
+// * DELETE - /movies/movieIs
+router.delete('/:movieId', async (req, res) => {
   try {
-    const deletedMovie = await Movie.findByIdAndDelete(req.params.movieId);
-
-    if (!deletedMovie) {
-      return res.status(404).send("Movie not found");
+    const movie = await Movie.findById(req.params.movieId);
+    if (movie.addedBy.equals(req.session.user._id)) {
+      await movie.deleteOne();
+      res.redirect('/movies');
+    } else {
+      res.send("You don't have permission to do that.");
     }
-
-    res.redirect('/movies');
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error deleting movie");
+  } catch (error) {
+    console.error(error);
+    res.redirect('/');
   }
 });
 
 
-
-// * GET - movies/:movieID/edit - 
+// * GET - /movies/:movieID/edit - 
 router.get('/:movieId/edit', async (req, res) => {
-  res.render('movies/edit', { Movie });
+  try {
+    const currentMovie = await Movie.findById(req.params.movieId);
+    res.render('movies/edit.ejs', {
+      movie: currentMovie
+    })
+  } catch (error) {
+    console.log(error);
+    res.redirect('/');
+  }
 
 
 })
 
-
-
-
-// * movies/:movieID — display one movie by its ID
+// * GET - /movies/:movieID — display one movie by its ID
 // this route will display a specific movie based on it ID
 router.get('/:movieId', async (req, res) => {
   try {
@@ -97,10 +99,11 @@ router.post('/', isSignedIn, async (req, res) => {
 
 
       // Before create a new movie, ensure that the logged in user is assigned as the owner
-        req.body.owner = req.session.user._id
+        req.body.addedBy = req.session.user._id
 
         // create new movie in database and attach to logged in user 
         const newMovie = new Movie(req.body);
+        await newMovie.save();
         console.log('movieCreated', newMovie);
 
         // redirect to movies index page to see it in the list 
@@ -112,12 +115,27 @@ router.post('/', isSignedIn, async (req, res) => {
     }
 });
 
-// * EDIT ROUTES 
+// * UPDATE ROUTES 
 
-router.put('/:movieId/edit', (req, res) =>{
-  res.send ('This is where we edit movies')
+router.put('/:movieId', async (req, res) => {
+  try {
+    const currentMovie = await Movie.findById(req.params.movieId);
 
-})
+    if (currentMovie.addedBy.equals(req.session.user._id)) {
+      console.log('Permission granted');
+    } else {
+      console.log('Permission denied');
+    }
+
+    res.send(`A PUT request was issued for ${req.params.listingId}`);
+  } catch (error) {
+    console.log(error);
+    res.redirect('/');
+  }
+});
+
+
+
 
 
 

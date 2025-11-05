@@ -16,16 +16,24 @@
           <p><span class="label">Description:</span> <%= movie.description %></p>
           <p><span class="label">Year:</span> <%= movie.year %></p>
           <p><span class="label">Genre:</span> <%= movie.genre %></p>
-          <% if (movie.addedBy?.username) { %>
-            <p><span class="label">Added by:</span> <%= movie.addedBy.username %></p>
-          <% } %>
-        </li>
+         
+          <% if (movie.addedBy._id.equals(user._id)) { %>
+            <p><span class="label">Added by:</span> You added this movie!</p>
 
+        <form action="/movies/<%=movie._id%>?_method=DELETE" method="POST">
+        <button type="submit">Delete <%= movie.title %></button>
 
-        <form action="/movies/<%= movie._id %>?_method=DELETE" method="POST">
-            <button type="submit">Delete <%= movie.title %></button>
-        </form>
-            <a href="/movies">Back to All Movies</a>
+          <a href="/movies/<%= movie._id %>/edit">Edit this movie</a>
+       
+          </form>
+
+          <% } else { %>
+            <p><span class="label">Added by:</span> You don't own this, <%= movie.addedBy.username %> does!</p>
+           <% } %>
+</li>
+
+        
+            <a href="/movies">Back to Movies</a>
 
 
 </body>

@@ -4,6 +4,7 @@ import isSignedIn from "../middleware/is-signed-in.js";
 import Movie from '../models/movie.js'
 import { title } from "process";
 import { asyncWrapProviders } from "async_hooks";
+import methodOverride from 'method-override'
 
 const router = express.Router()
 
@@ -29,7 +30,27 @@ router.get('/new', (req, res) => {
     res.render('movies/new.ejs')
 })
 
-// * movies/:movieID— display one movie by its ID
+// * DELETE ROUTES
+
+router.delete("/:movieId", async (req, res) => {
+  await Movie.findByIdAndDelete(req.params.movieId)
+  res.redirect('/movies')
+});
+
+
+
+
+
+// * movies/:movieID/edit - edit movie 
+router.get('/:movieId/edit', async (req, res) => {
+  res.render('movies/edit', { Movie });
+
+
+})
+
+
+
+// * movies/:movieID — display one movie by its ID
 // this route will display a specific movie based on it ID
 router.get('/:movieId', async (req, res) => {
   try {
@@ -53,10 +74,7 @@ router.get('/:movieId', async (req, res) => {
   }
 });
 
-// * movies/:movieID/edit
-router.get('/:movieId/edit', async (req, res) => {
 
-})
 
 // * POST ROUTES /movies/
 router.post('/', isSignedIn, async (req, res) => {
@@ -76,7 +94,7 @@ router.post('/', isSignedIn, async (req, res) => {
         console.log('movieCreated', newMovie);
 
         // redirect to movies index page to see it in the list 
-        res.redirect('/')
+        res.redirect('/movies')
 
     } catch (error) {
         console.error(error)
@@ -85,6 +103,13 @@ router.post('/', isSignedIn, async (req, res) => {
 });
 
 // * EDIT ROUTES 
+
+router.put('/:movieId/edit', (req, res) =>{
+  res.send ('This is where we edit movies')
+
+})
+
+
 
 
 export default router

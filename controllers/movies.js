@@ -117,22 +117,23 @@ router.post('/', isSignedIn, async (req, res) => {
 
 // * UPDATE ROUTES 
 
+// controllers/listings.js
+
 router.put('/:movieId', async (req, res) => {
   try {
     const currentMovie = await Movie.findById(req.params.movieId);
-
     if (currentMovie.addedBy.equals(req.session.user._id)) {
-      console.log('Permission granted');
+      await currentMovie.updateOne(req.body);
+      res.redirect('/movies');
     } else {
-      console.log('Permission denied');
+      res.send("You don't have permission to do that.");
     }
-
-    res.send(`A PUT request was issued for ${req.params.listingId}`);
   } catch (error) {
     console.log(error);
     res.redirect('/');
   }
 });
+
 
 
 

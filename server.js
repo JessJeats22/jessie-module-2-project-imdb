@@ -47,7 +47,7 @@ app.use(methodOverride('_method'));
 
 // * Calling controllers/Routers - intructing Express app to use certain controllers based on URL pattern
 app.use("/auth", authRouter); 
-app.use('/movies', movieRouter);
+app.use('/movies', isSignedIn, movieRouter);
 
 
 

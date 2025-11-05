@@ -1,23 +1,24 @@
 import mongoose from "mongoose";
 import express from 'express'
-import isSignedIn from "../middleware/is-signed-in.js";
 import Movie from '../models/movie.js'
+import isSignedIn from "../middleware/is-signed-in.js";
 import { title } from "process";
 import { asyncWrapProviders } from "async_hooks";
 import methodOverride from 'method-override'
 
 const router = express.Router()
 
-// * GET ROUTES /movies
+// * Routes
+
+
+// * GET - /movies
 router.get('/', async (req, res) => {
   try {
     // Fetching all movies from MongoDB
-
-    const movies = await Movie.find().populate('addedBy'); // includes username of whoever added it
-    res.locals.movies = movies;
+      const movies = await Movie.find().populate('addedBy'); // includes username of whoever added it
+      console.log(movies)
     // Render your EJS view and pass movies in
-
-      res.render('movies/index');
+      res.render('movies/index', {movies});
 
   } catch (error) {
     console.error(error);
@@ -25,7 +26,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// * movies/new
+// * GET - movies/new
 router.get('/new', (req, res) => {
     res.render('movies/new.ejs')
 })
@@ -33,20 +34,30 @@ router.get('/new', (req, res) => {
 // * DELETE ROUTES
 
 router.delete("/:movieId", async (req, res) => {
-  await Movie.findByIdAndDelete(req.params.movieId)
-  res.redirect('/movies')
+  try {
+    const deletedMovie = await Movie.findByIdAndDelete(req.params.movieId);
+
+    if (!deletedMovie) {
+      return res.status(404).send("Movie not found");
+    }
+
+    res.redirect('/movies');
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting movie");
+  }
 });
 
 
 
-
-
-// * movies/:movieID/edit - edit movie 
+// * GET - movies/:movieID/edit - 
 router.get('/:movieId/edit', async (req, res) => {
   res.render('movies/edit', { Movie });
 
 
 })
+
 
 
 
@@ -85,12 +96,11 @@ router.post('/', isSignedIn, async (req, res) => {
         if (movieInDatabase) return res.status(400).send('Movie already exists.')
 
 
+      // Before create a new movie, ensure that the logged in user is assigned as the owner
+        req.body.owner = req.session.user._id
+
         // create new movie in database and attach to logged in user 
         const newMovie = new Movie(req.body);
-        newMovie.addedBy = req.session.user._id;
-
-        // save movie to database
-        await newMovie.save();
         console.log('movieCreated', newMovie);
 
         // redirect to movies index page to see it in the list 

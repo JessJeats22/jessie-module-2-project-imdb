@@ -12,3 +12,34 @@ nav ul {
   list-style: none;
 }
 
+.movie-list {
+  padding: 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+
+}
+
+.movie-card {
+  background-color: #111133;          /* slightly lighter retro navy */
+  border: 1px solid #ff4fd8;  ;          /* neon blue border */
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 10px #3a3aff55;     /* soft neon glow */
+}
+
+.movie-card a {
+  color: #7f7fff;                     /* neon-light blue for links */
+  text-decoration: none;
+}
+
+.movie-card a:hover {
+  color: #b0b0ff;
+  text-shadow: 0 0 5px #111148;       /* soft glow on hover */
+}
+
+.label {
+  font-weight: bold;
+  color: #ff4fd8;                    /* neon-ish highlight for labels */
+}

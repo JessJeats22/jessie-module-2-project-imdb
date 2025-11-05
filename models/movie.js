@@ -21,7 +21,6 @@ const movieSchema = new mongoose.Schema ({
   addedBy: {
     type: mongoose.Schema.Types.ObjectId, 
     ref: "User",
-    required: true,
   },
   // Users who have favorited this movie
   favouritedByUsers: [

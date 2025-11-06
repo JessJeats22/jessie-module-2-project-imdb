@@ -1,46 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/stylesheets/style.css">
   <title class="page.title">All Movies</title>
 </head>
+
 <body>
   <%- include('../partials/navbar.ejs') %>
 
-      <h1 class="page-title"> MovieList</h1>
-      
-  <div class="movie-list">
+    <h1 class="page-title"> MovieList</h1>
+
+    <div class="movie-list">
+
+      <% if (movies.length===0) { %>
+        <p class="empty">No movies yet — be the first to add one!</p>
+        <% } else { %>
+          <% movies.forEach(movie=> { %>
+
+            <div class="movie-card">
+
+              <p><span class="label">Title:</span>
+                <%= movie.title %>
+              </p>
+              <p><span class="label">Year:</span>
+                <%= movie.year %>
+              </p>
+              <p><span class="label">Genre:</span>
+                <%= movie.genre %>
+              </p>
+
+              <% if (movie.addedBy?.username) { %>
+                <p><span class="label">Added by:</span>
+                  <%= movie.addedBy.username %>
+                </p>
+                <% } %>
 
 
-    <% if (movies.length === 0) { %>
-      <p class="empty">No movies yet — be the first to add one!</p>
-    <% } else { %>
-      <% movies.forEach(movie => { %>
+                  <a class="more-on-button" href="/movies/<%= movie._id %>">
+                    More on "<%= movie.title %>"
+                  </a>
 
-        <div class="movie-card">
-
-          <p>
-            <a href="/movies/<%= movie._id %>">
-              See more details on "<%= movie.title %>"
-            </a>
-          </p>
-
-          <p><span class="label">Title:</span> <%= movie.title %></p>
-
-          <p><span class="label">Year:</span> <%= movie.year %></p>
-          <p><span class="label">Genre:</span> <%= movie.genre %></p>
-
-          <% if (movie.addedBy?.username) { %>
-            <p><span class="label">Added by:</span> <%= movie.addedBy.username %></p>
-          <% } %>
-
-        </div>
-
-      <% }) %>
-    <% } %>
-  </div>
-
+            </div>
+            <% }) %>
+              <% } %>
 </body>
+
 </html>

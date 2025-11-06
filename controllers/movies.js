@@ -2,8 +2,6 @@ import mongoose from "mongoose";
 import express from 'express'
 import Movie from '../models/movie.js'
 import isSignedIn from "../middleware/is-signed-in.js";
-import { title } from "process";
-import { asyncWrapProviders } from "async_hooks";
 import methodOverride from 'method-override'
 
 const router = express.Router()
@@ -31,7 +29,7 @@ router.get('/new', (req, res) => {
     res.render('movies/new.ejs')
 })
 
-// * DELETE - /movies/movieIs
+// * DELETE - /movies/movieId
 router.delete('/:movieId', isSignedIn, async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.movieId);
@@ -46,7 +44,6 @@ router.delete('/:movieId', isSignedIn, async (req, res) => {
     res.redirect('/');
   }
 });
-
 
 
 // * GET - /movies/:movieID/edit - 
@@ -98,6 +95,7 @@ router.get('/:movieId', async (req, res) => {
 
 
 // * POST ROUTES /movies/
+
 router.post('/', isSignedIn, async (req, res) => {
 
     try {
@@ -148,9 +146,13 @@ router.put('/:movieId', isSignedIn, async (req, res) => {
 
 router.post('/:movieId/favourited-by/:userId', isSignedIn, async (req, res) => {
   try {
+
    await Movie.findByIdAndUpdate(req.params.movieId, {
       $push: { favouritedByUsers: req.params.userId },
     });
+
+    if (!Movie) return res.status(404).send("Movie not found");
+
     res.redirect(`/movies/${req.params.movieId}`);
     
    } catch (error) {
@@ -168,6 +170,9 @@ router.delete('/:movieId/favourited-by/:userId', async (req, res) => {
     await Movie.findByIdAndUpdate(movieId, {
       $pull: { favouritedByUsers: req.params.userId  }
     })
+
+    if (!Movie) return res.status(404).send("Movie not found");
+
     res.redirect(`/movies/${movieId}`);
 
  } catch (error) {

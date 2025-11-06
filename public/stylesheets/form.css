@@ -1,0 +1,23 @@
+form {
+  width: 400px;
+  max-width: 100%;
+  margin: 0 auto;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 18px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label, input {
+  margin-bottom: 5px;
+}
+
+button[type="submit"] {
+  display: block;
+  margin-top: 5px;
+}
+
+.error-message {
+  color: red;
+}

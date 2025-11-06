@@ -3,33 +3,46 @@
 
 <head>
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/form.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Movie</title>
+    <title class="page-title">Add New Movie</title>
 </head>
 
 <body>
     <%- include('../partials/navbar.ejs') %>
 
-        <h1>Add a New Movie!</h1>
+    <div class="page-container new-page">
+        <h1 class="page-title">Add a New Movie!</h1>
 
-        <form action="/movies" method="POST">
+        <div class="form-card">
+            <form class="new-form" action="/movies" method="POST">
 
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title"><br><br>
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title">
+                </div>
 
-            <label for="genre">Genre</label>
-            <input type="text" id="genre" name="genre"><br><br>
+                <div class="form-group">
+                    <label for="genre">Genre</label>
+                    <input type="text" id="genre" name="genre">
+                </div>
 
-            <label for="year">Year</label>
-            <input type="text" id="year" name="year"><br><br>
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <input type="text" id="year" name="year">
+                </div>
 
-            <label for="description">Description</label>
-            <input type="text" id="description" name="description"><br><br>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" name="description">
+                </div>
 
-            <input type="submit" value="Submit">
-        </form>
+                <button type="submit" class="btn btn-submit">Submit</button>
+            </form>
+        </div>
+
+    </div>
 
 </body>
-
 </html>

@@ -32,7 +32,7 @@ router.get('/new', (req, res) => {
 })
 
 // * DELETE - /movies/movieIs
-router.delete('/:movieId', async (req, res) => {
+router.delete('/:movieId', isSignedIn, async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.movieId);
     if (movie.addedBy.equals(req.session.user._id)) {
@@ -46,6 +46,25 @@ router.delete('/:movieId', async (req, res) => {
     res.redirect('/');
   }
 });
+
+
+// * POST - FAVOURITES -/movies/movieId...
+
+router.post('/:movieId/favourited-by/:userId', isSignedIn, async (req, res) => {
+  try {
+   await Movie.findByIdAndUpdate(req.params.movieId, {
+      $push: { favouritedByUsers: req.params.userId },
+    });
+    res.redirect(`/movies/${req.params.movieId}`);
+    
+  } catch (error) {
+    console.log(error);
+    res.redirect('/');
+  }
+});
+
+
+
 
 
 // * GET - /movies/:movieID/edit - 
@@ -69,17 +88,24 @@ router.get('/:movieId', async (req, res) => {
   try {
     // get the id from the URL (like /movies/abc123)
     const movieId = req.params.movieId;
-
     // Use Mongoose to find that specific movie in the database
     const movie = await Movie.findById(movieId).populate('addedBy');
 
-    // If no movie is found, show an error
+     // If no movie is found, show an error
     if (!movie) {
       return res.status(404).send('Movie not found');
     }
 
+     const userHasFavourited = movie.favouritedByUsers.some((user) =>
+      user.equals(req.session.user._id)
+    );
+
+
     // otherwise, show the movie details on a page
-    res.render('movies/show.ejs', { movie });
+     res.render('movies/show.ejs', {
+      movie: movie,
+      userHasFavourited: userHasFavourited,
+    });
 
   } catch (error) {
     console.error(error);
@@ -119,7 +145,7 @@ router.post('/', isSignedIn, async (req, res) => {
 
 // controllers/listings.js
 
-router.put('/:movieId', async (req, res) => {
+router.put('/:movieId', isSignedIn, async (req, res) => {
   try {
     const currentMovie = await Movie.findById(req.params.movieId);
     if (currentMovie.addedBy.equals(req.session.user._id)) {

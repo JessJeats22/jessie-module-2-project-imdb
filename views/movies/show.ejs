@@ -1,40 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Movies</title>
+  <title class="page-title">All Movies</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
+
 <body>
   <%- include('../partials/navbar.ejs') %>
 
-  <h1>Movies List</h1>
+    <div class="page-container show-page">
 
- <li>      
-          <p><span class="label">Title:</span> <%= movie.title %></p>
-          <p><span class="label">Description:</span> <%= movie.description %></p>
-          <p><span class="label">Year:</span> <%= movie.year %></p>
-          <p><span class="label">Genre:</span> <%= movie.genre %></p>
-         
+      <h1 class="page-title">Movies List</h1>
+
+      <div class="movie-card">
+        <ul class="movie-details">
+          <li><span class="label">Title:</span>
+            <%= movie.title %>
+          </li>
+          <li><span class="label">Description:</span>
+            <%= movie.description %>
+          </li>
+          <li><span class="label">Year:</span>
+            <%= movie.year %>
+          </li>
+          <li><span class="label">Genre:</span>
+            <%= movie.genre %>
+          </li>
+
           <% if (movie.addedBy._id.equals(user._id)) { %>
-            <p><span class="label">Added by:</span> You added this movie!</p>
+            <li><span class="label">Added by:</span> You added this movie!</li>
 
-        <form action="/movies/<%=movie._id%>?_method=DELETE" method="POST">
-        <button type="submit">Delete <%= movie.title %></button>
+            <div class="actions">
+              <form class="delete-form" action="/movies/<%=movie._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-delete" type="submit">Delete <%= movie.title %></button>
+              </form>
 
-          <a href="/movies/<%= movie._id %>/edit">Edit this movie</a>
-       
-          </form>
+              <a class="btn btn-edit" href="/movies/<%= movie._id %>/edit">Edit this movie</a>
+            </div>
 
+            <% } else { %>
+              <li><span class="label">Added by:</span> You don't own this, <%= movie.addedBy.username %> does!</li>
+              <% } %>
+        </ul>
+
+        <a class="btn btn-back" href="/movies">Back to Movies</a>
+      </div>
+
+      <!-- views/listings/show.ejs -->
+
+      <div class="favourites-card">
+
+        <h2>Favourites</h2>
+
+        <p>Favourited by <%= movie.favouritedByUsers.length %> people.</p>
+
+        <% if (userHasFavourited) { %>
+          <p>You've favourited this movie!</p>
           <% } else { %>
-            <p><span class="label">Added by:</span> You don't own this, <%= movie.addedBy.username %> does!</p>
-           <% } %>
-</li>
+            <p>You haven't favourited this movie.</p>
+            <% } %>
 
-        
-            <a href="/movies">Back to Movies</a>
+              <% if (!userHasFavourited) { %>
+                <form action="/movies/<%= movie._id %>/favourited-by/<%= user._id %>" method="POST">
+                  <button type="submit">Favourite it!</button>
+                </form>
 
+                <% } %>
+
+      </div>
 
 </body>
+
 </html>

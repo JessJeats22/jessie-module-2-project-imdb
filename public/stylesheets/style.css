@@ -5,12 +5,58 @@
 
 }
 
-nav ul {
+
+.page-title {
+  color: #ff00a8;         /* your original color */
+  font-size: 2.8rem;             /* big 80s headline */
+  font-weight: 700;
+  text-align: center;
+  margin: 30px 0 10px;
+  letter-spacing: 1.5px;         /* retro spacing */
+  font-family: "Poppins", sans-serif; /* friendly 80s font */
+  text-shadow: 3px 1px 0 #ff00a8; /* pastel pink offset = classic 80s print look */
+}
+
+
+.page-subtitle{
+color: #ff00a8;         /* your original color */
+  font-size: 2.8rem;             /* big 80s headline */
+  font-weight: 700;
+  text-align: center;
+  margin: 30px 0 10px;
+  letter-spacing: 1.5px;         /* retro spacing */
+  font-family: "Poppins", sans-serif; /* friendly 80s font */
+  text-shadow: 3px 1px 0 #ff00a8; /* pastel pink offset = classic 80s print look */
+}
+
+/* UL STYLING */
+.nav-menu{
   display: flex;
   justify-content: center;
   gap: 3rem;
   list-style: none;
 }
+
+/* LINK styling — neon retro glow */
+.nav-menu a {
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #00f0ff;
+  text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff;
+  padding: 8px 12px;
+  transition: 0.3s ease;
+  font-family: "Orbitron", sans-serif; /* optional retro font */
+}
+
+/* HOVER EFFECT */
+.nav-menu a:hover {
+  color: #ff00cc;
+  text-shadow: 
+    0 0 5px #ff00cc;
+}
+
+
 
 .movie-list {
   padding: 0 1rem;
@@ -27,6 +73,8 @@ nav ul {
   padding: 1rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 0 10px #3a3aff55;     /* soft neon glow */
+  width: 300px;
+  height: 300px;
 }
 
 .movie-card a {
@@ -42,4 +90,36 @@ nav ul {
 .label {
   font-weight: bold;
   color: #ff4fd8;                    /* neon-ish highlight for labels */
+}
+
+.form-card {
+  background-color: #111133;                 /* dark retro navy */
+  border: 1px solid #ff4fd8;                 /* neon pink border */
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;                          
+  margin: 2rem auto;                       
+  box-shadow: 0 0 15px #ff4fd866;         
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  color: #ff4fd8;                            
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+}
+
+.form-group input {
+  font-family: "Arial", sans-serif;
+  font-size: 1rem;
+  color:  #00f0ff;
+  background-color: #1a1a3a;
+  border: 1px solid #3a3aff;
+  padding: 0.6rem;
+  border-radius: 6px;
 }

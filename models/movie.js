@@ -22,7 +22,7 @@ const movieSchema = new mongoose.Schema ({
     type: mongoose.Schema.Types.ObjectId, 
     ref: "User",
   },
-  // Users who have favorited this movie
+  // Users who have favorited this movie - many to mahy relationship with Users 
   favouritedByUsers: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -48,24 +48,6 @@ router.delete('/:movieId', isSignedIn, async (req, res) => {
 });
 
 
-// * POST - FAVOURITES -/movies/movieId...
-
-router.post('/:movieId/favourited-by/:userId', isSignedIn, async (req, res) => {
-  try {
-   await Movie.findByIdAndUpdate(req.params.movieId, {
-      $push: { favouritedByUsers: req.params.userId },
-    });
-    res.redirect(`/movies/${req.params.movieId}`);
-    
-  } catch (error) {
-    console.log(error);
-    res.redirect('/');
-  }
-});
-
-
-
-
 
 // * GET - /movies/:movieID/edit - 
 router.get('/:movieId/edit', async (req, res) => {
@@ -162,7 +144,37 @@ router.put('/:movieId', isSignedIn, async (req, res) => {
 
 
 
+// * POST FAVOURITES - Add user to favourites -/movies/movieId...
 
+router.post('/:movieId/favourited-by/:userId', isSignedIn, async (req, res) => {
+  try {
+   await Movie.findByIdAndUpdate(req.params.movieId, {
+      $push: { favouritedByUsers: req.params.userId },
+    });
+    res.redirect(`/movies/${req.params.movieId}`);
+    
+   } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong. Please try again later.')
+  }
+})
+
+
+// controllers/listings.js
+
+router.delete('/:movieId/favourited-by/:userId', async (req, res) => {
+  try {
+   const movieId = req.params.movieId
+    await Movie.findByIdAndUpdate(movieId, {
+      $pull: { favouritedByUsers: req.params.userId  }
+    })
+    res.redirect(`/movies/${movieId}`);
+
+ } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong. Please try again later.')
+  }
+})
 
 
 

@@ -12,12 +12,25 @@
 </head>
 
 <body>
-  <%- include('partials/navbar.ejs') %>
+ <nav>
+  <ul class="nav-menu">
+  
+    <% if (user) { %>
+        <li><a href="/">Jessie's MovieDB</a></li>
+    <li><a href="/movies">All Movies</a></li>
+    <li><a href="/movies/new">Add a Movie</a></li>
+      <li><a href="/auth/sign-out">Sign Out (<%= user.username %>)</a></li>
+    <% } else { %>
+      <li><a href="/auth/sign-up">Sign Up</a></li>
+           <li><a href="/auth/sign-in">Sign In</a></li>
+    <% } %>
+  </ul>
+</nav>
 
-
+<div class="main-page">
     <h1 class="page-title">Welcome to Jessie's MovieDB</h1>
     <p class="page-subtitle">Browse & favourite the latest movies (reviews coming soon!)</p>
-
+</div>
 
 </body>
 

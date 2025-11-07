@@ -1,12 +1,31 @@
-* {
+body {
   background-color: #0a0a1a;
   color: #f8f8ff;
   font-family: 'Orbitron', sans-serif;
+  
+}
 
+.main-page {
+  text-align: center;
+  padding: 80px 20px;
+  margin-top: 50px;
+
+  /* Neon glow card effect */
+  border: 2px solid #ff00cc;
+  border-radius: 12px;
+  background: rgba(20, 0, 40, 0.4);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    0 0 15px #ff00cc,
+    0 0 35px #3333ff,
+    inset 0 0 20px rgba(255,0,255,0.3),
+    inset 0 0 40px rgba(0,0,255,0.2);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
-/* UL STYLING */
 .nav-menu{
   display: flex;
   justify-content: center;
@@ -14,10 +33,9 @@
   list-style: none;
 }
 
-/* LINK styling — neon retro glow */
 .nav-menu a {
   text-decoration: none;
-  font-size: 1.rem;
+  font-size: 1rem;
   font-weight: 400;
   color: #00f0ff;
   text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff;
@@ -26,7 +44,6 @@
   font-family: "Orbitron", sans-serif; /* optional retro font */
 }
 
-/* HOVER EFFECT */
 .nav-menu a:hover {
   color: #ff00cc;
   text-shadow: 
@@ -42,14 +59,6 @@
   align-items: center;
 }
 
-.more-on-button{
-  margin-top: 20rem;
-}
-
-.button {
-  color: #00f0ff;
-}
-
 
 
 .button,
@@ -57,9 +66,11 @@
 a.button,
 button.button,
 .more-on-button {
+   display: inline-block;   
+  width: auto;   
   background: linear-gradient(135deg, #ff00cc, #3333ff);
   padding: 12px 20px;
-  color: #fff;
+color: #00f0ff;
   border-radius: 8px;
   text-decoration: none;
   font-size: 1rem;
@@ -70,20 +81,20 @@ button.button,
 }
 
 .page-title {
-  color: #ff00a8;         /* your original color */
-  font-size: 2.8rem;             /* big 80s headline */
+  color: #ff00a8;         
+  font-size: 2.8rem;             
   font-weight: 700;
   text-align: center;
   margin: 30px 0 10px;
-  letter-spacing: 1.5px;         /* retro spacing */
-  font-family: "Poppins", sans-serif; /* friendly 80s font */
-  text-shadow: 3px 1px 0 #ff00a8; /* pastel pink offset = classic 80s print look */
+  letter-spacing: 1.5px;        
+  font-family: "Poppins", sans-serif; 
+  text-shadow: 3px 1px 0 #ff00a8; 
 }
 
 
 .page-subtitle{
-color: #ff00a8;         /* your original color */
-  font-size: 2.8rem;             /* big 80s headline */
+color: #ff00a8;        
+  font-size: 1.8rem;             
   font-weight: 700;
   text-align: center;
   margin: 30px 0 10px;
@@ -93,44 +104,26 @@ color: #ff00a8;         /* your original color */
 }
 
 
-
 .movie-list {
-  padding: 0 1rem;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* ✅ 4 cards per row */
   gap: 1.5rem;
-
+  padding: 0 1rem;
 }
 
 .movie-card {
-  background-color: #111133;          /* slightly lighter retro navy */
-  border: 1px solid #ff4fd8;  ;          /* neon blue border */
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 0 10px #3a3aff55;     /* soft neon glow */
-  width: 300px;
-  height: 300px;
+  background: rgba(17, 17, 51, 0.7);   /* translucent retro navy */
+  border: 2px solid #ff4fd8;           /* neon pink border */
+  border-radius: 12px;
+  padding: 1.2rem;
+  width: 100%; /* fill grid cell */
+max-width: 270px; /* optional cap */                      /* more compact, looks cleaner */                     
+  display: block;
+
 }
 
 
-.movie-card a {
-  color: #7f7fff;                     /* neon-light blue for links */
-  text-decoration: none;
-}
 
-.movie-card a:hover {
-  color: #b0b0ff;
-  text-shadow: 0 0 5px #111148;       /* soft glow on hover */
-}
-
-.movie-card-show {
-  width: 100%;
-  height: auto;
-  background-color: #111133;          /* slightly lighter retro navy */
-  border: 1px solid #ff4fd8;  ;          /* neon blue border */
-  border-radius: 10px;
-}
 
 .label {
   font-weight: bold;
@@ -219,10 +212,7 @@ color: #ff00a8;         /* your original color */
   margin: 10px 0;
 }
 
-/* BUTTON SHARED STYLE */
 
-
-/* HOVER EFFECT */
 .button:hover {
   transform: translateY(-3px) scale(1.06);
   box-shadow:

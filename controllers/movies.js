@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 });
 
 // * GET - /movies/new
-router.get('/new', (req, res) => {
+router.get('/new', isSignedIn, (req, res) => {
     res.render('movies/new.ejs')
 })
 
@@ -33,6 +33,8 @@ router.get('/new', (req, res) => {
 router.delete('/:movieId', isSignedIn, async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.movieId);
+    if (!movie) return res.status(404).send("Movie not found");
+
     if (movie.addedBy.equals(req.session.user._id)) {
       await movie.deleteOne();
       res.redirect('/movies');
@@ -47,9 +49,12 @@ router.delete('/:movieId', isSignedIn, async (req, res) => {
 
 
 // * GET - /movies/:movieID/edit - 
-router.get('/:movieId/edit', async (req, res) => {
+router.get('/:movieId/edit', isSignedIn, async (req, res) => {
   try {
     const currentMovie = await Movie.findById(req.params.movieId);
+
+    if (!currentMovie) return res.status(404).send("Movie not found");
+
     res.render('movies/edit.ejs', {
       movie: currentMovie
     })
@@ -147,11 +152,11 @@ router.put('/:movieId', isSignedIn, async (req, res) => {
 router.post('/:movieId/favourited-by/:userId', isSignedIn, async (req, res) => {
   try {
 
-   await Movie.findByIdAndUpdate(req.params.movieId, {
+   const movie = await Movie.findByIdAndUpdate(req.params.movieId, {
       $push: { favouritedByUsers: req.params.userId },
     });
 
-    if (!Movie) return res.status(404).send("Movie not found");
+    if (!movie) return res.status(404).send("Movie not found");
 
     res.redirect(`/movies/${req.params.movieId}`);
     
@@ -164,14 +169,15 @@ router.post('/:movieId/favourited-by/:userId', isSignedIn, async (req, res) => {
 
 // controllers/listings.js
 
-router.delete('/:movieId/favourited-by/:userId', async (req, res) => {
+router.delete('/:movieId/favourited-by/:userId', isSignedIn, async (req, res) => {
   try {
    const movieId = req.params.movieId
-    await Movie.findByIdAndUpdate(movieId, {
+
+   const movie = await Movie.findByIdAndUpdate(movieId, {
       $pull: { favouritedByUsers: req.params.userId  }
     })
 
-    if (!Movie) return res.status(404).send("Movie not found");
+    if (!movie) return res.status(404).send("Movie not found");
 
     res.redirect(`/movies/${movieId}`);
 

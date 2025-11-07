@@ -18,7 +18,7 @@
       <%= movie.title %>
     </h1>
 
-    <div class="movie-card-show">
+    <div class="favourites-card">
       <ul class="movie-details">
         <li><span class="label">Title:</span>
           <%= movie.title %>
@@ -43,21 +43,18 @@
 
       <a class="button" href="/movies/<%= movie._id %>/edit">Edit <%= movie.title %></a>
 
-       <form class="delete-form" action="/movies/<%=movie._id%>?_method=DELETE" method="POST">
-            <button class="button" type="submit">Delete <%= movie.title %></button>
-          </form>
+      <form class="delete-form" action="/movies/<%=movie._id%>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete this movie?');">
+        <button class="button" type="submit">Delete <%= movie.title %></button>
+      </form>
 
       <% } else { %>
         <li><span class="label">Added by:</span> You don't own this, <%= movie.addedBy.username %> does!</li>
         <% } %>
           </ul>
 
-         
+
     </div>
-
-
-
-    <h2 class="show-favourite">How much love has <%=movie.title%>got!?</h2>
+    <h2 class="show-favourite">How much love has <%=movie.title%> got!?</h2>
     <div class="favourites-card">
 
       <p class="fav-count">

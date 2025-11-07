@@ -7,11 +7,17 @@
     <title>Sign Up</title>
   </head>
   <body>
-      <%- include('../partials/navbar.ejs') %>
-    <h1>Create a new account!</h1>
+    <nav>
+    <ul class="nav-menu">
+      <li><a href="/">Jessie's MovieDB</a></li>
+    </ul>
+  </nav>
 
-    <!-- Form now matches your Mongoose user schema -->
+    <h1 class="page-subtitle">Create a new account!</h1>
+
+   <div class="form-card">
     <form action="/auth/sign-up" method="POST">
+       <div class="form-group">
       <label for="username">Username:</label>
       <input type="text" name="username" id="username" required />
 
@@ -24,7 +30,10 @@
       <label for="confirmPassword">Confirm Password:</label>
       <input type="password" name="confirmPassword" id="confirmPassword" required />
 
-      <button type="submit">Sign Up</button>
+      <button class="button" type="submit">Sign Up</button>
+      </div>
+  
     </form>
+        </div>
   </body>
 </html>

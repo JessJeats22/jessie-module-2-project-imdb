@@ -81,7 +81,7 @@ router.post('/sign-in', async (req, res) => {
             username: existingUser.username
         }
 
-        req.session.save(() => res.redirect('/'))
+        req.session.save(() => res.redirect('/movies'))
 
     } catch (error) {
         console.error(error);
